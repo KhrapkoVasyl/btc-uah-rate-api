@@ -4,7 +4,8 @@
   "description": "API to track the exchange rate of bitcoin to the hryvnia",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --fix && prettier --write \"**/*.js\" \"**/*.json\""
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,9 @@
   "homepage": "https://github.com/KhrapkoVasyl/btc-uah-rate-api#readme",
   "dependencies": {
     "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.20.0",
+    "prettier": "^2.7.1"
   }
 }
