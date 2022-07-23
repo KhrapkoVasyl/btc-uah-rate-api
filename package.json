@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KhrapkoVasyl/btc-uah-rate-api/issues"
   },
-  "homepage": "https://github.com/KhrapkoVasyl/btc-uah-rate-api#readme"
+  "homepage": "https://github.com/KhrapkoVasyl/btc-uah-rate-api#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
 }
