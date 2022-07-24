@@ -20,7 +20,8 @@
   "homepage": "https://github.com/KhrapkoVasyl/btc-uah-rate-api#readme",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "eslint": "^8.20.0",
