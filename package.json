@@ -4,6 +4,7 @@
   "description": "API to track the exchange rate of bitcoin to the hryvnia",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --fix && prettier --write \"**/*.js\" \"**/*.json\""
   },
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "eslint": "^8.20.0",
+    "nodemon": "^2.0.19",
     "prettier": "^2.7.1"
   }
 }
