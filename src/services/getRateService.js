@@ -8,7 +8,6 @@ const getRateService = async () => {
   const { price } = await response.json();
   const rate = parseInt(price);
 
-  console.log(rate);
   if (!rate) throw new Error('Invalid exchange rate value');
 
   return rate;
