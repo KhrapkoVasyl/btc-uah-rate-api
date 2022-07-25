@@ -1,0 +1,71 @@
+'use strict';
+
+const fsp = require('fs').promises;
+const path = require('path');
+const { ERRNO_NO_SUCH_FILE, ERR_CODE_NO_SUCH_FILE } = require('../config');
+
+class FileBasedDB {
+  #emailsFilename = 'emails.txt';
+  #dataDirectory;
+  #pathToEmailsFile;
+
+  #emails = [];
+
+  constructor(dataDirectory = path.join(__dirname, 'emailData')) {
+    this.#dataDirectory = dataDirectory;
+
+    this.#pathToEmailsFile = path.join(
+      this.#dataDirectory,
+      this.#emailsFilename
+    );
+  }
+
+  async connect() {
+    await fsp.mkdir(path.join(this.#dataDirectory), {
+      recursive: true,
+    }); // recursively creates non-existent directories in the given path
+
+    await this.#createFileIfNotExist();
+
+    const emailsStr = await fsp.readFile(this.#pathToEmailsFile, {
+      encoding: 'utf-8',
+    });
+    if (emailsStr) this.#emails = emailsStr.trim().split('\n');
+  }
+
+  async #createFileIfNotExist() {
+    await fsp.access(this.#pathToEmailsFile).catch(async err => {
+      if (
+        err.code === ERR_CODE_NO_SUCH_FILE &&
+        err.errno === ERRNO_NO_SUCH_FILE
+      ) {
+        await this.#saveEmailsToFile();
+      } else {
+        throw err;
+      }
+    });
+  }
+
+  async #saveEmailsToFile() {
+    const emailsStr = this.#emails.join('\n').trim();
+    await fsp.writeFile(this.#pathToEmailsFile, emailsStr);
+  }
+
+  async findAllEmails() {
+    return this.#emails.slice();
+  }
+
+  async insertEmail(email) {
+    if (this.#isEmailInDB(email))
+      throw new Error('The specified email has already been recorded');
+    this.#emails.push(email);
+    await fsp.appendFile(this.#pathToEmailsFile, email + '\n');
+    return email;
+  }
+
+  #isEmailInDB(email) {
+    return this.#emails.includes(email);
+  }
+}
+
+module.exports = FileBasedDB;
