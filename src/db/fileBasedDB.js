@@ -51,6 +51,11 @@ class FileBasedDB {
     await fsp.writeFile(this.#pathToEmailsFile, emailsStr);
   }
 
+  async clearDB() {
+    this.#emails = [];
+    await this.#saveEmailsToFile();
+  }
+
   async findAllEmails() {
     return this.#emails.slice();
   }
