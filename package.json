@@ -19,8 +19,10 @@
   },
   "homepage": "https://github.com/KhrapkoVasyl/btc-uah-rate-api#readme",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-form-data": "^2.0.18",
     "express-validator": "^6.14.2",
     "node-fetch": "^2.6.7"
   },
