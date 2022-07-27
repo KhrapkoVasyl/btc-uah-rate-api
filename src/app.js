@@ -24,5 +24,5 @@ app.post(
   validateRequest,
   subscriptionСontroller.subscribe
 );
-
+app.post(PREFIX + '/sendEmails', subscriptionСontroller.sendEmails);
 module.exports = app;
