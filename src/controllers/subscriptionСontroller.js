@@ -5,11 +5,17 @@ const notificationService = require('../services/notificationService');
 
 module.exports.subscribe = async (req, res) => {
   res.setHeader('content-type', 'application/json');
+  const email = req.body.email;
+
   try {
-    await subscriptionService.subscribe(req.body.email);
+    const isSubscribed = await subscriptionService.isSubscribed(email);
+    if (isSubscribed) return res.status(409).send();
+
+    await subscriptionService.subscribe(email);
     return res.status(200).send();
   } catch (err) {
-    return res.status(409).send();
+    console.log(err);
+    return res.status(500).send();
   }
 };
 
