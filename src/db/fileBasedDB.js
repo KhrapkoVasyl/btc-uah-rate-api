@@ -23,7 +23,7 @@ class FileBasedDB {
   async connect() {
     await fsp.mkdir(path.join(this.#dataDirectory), {
       recursive: true,
-    }); // recursively creates non-existent directories in the given path
+    });
 
     await this.#createFileIfNotExist();
 
