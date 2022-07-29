@@ -23,6 +23,8 @@ OAuth2Client.setCredentials({ refresh_token: OAUTH_REFRESH_TOKEN });
 
 module.exports.sendEmails = async (mailReceivers, subject, text) => {
   try {
+    if (!mailReceivers.length) return [];
+
     const accessToken = await OAuth2Client.getAccessToken();
 
     const transporter = nodemailer.createTransport({
@@ -37,15 +39,25 @@ module.exports.sendEmails = async (mailReceivers, subject, text) => {
       },
     });
 
-    const mailOptions = {
-      from: USER_MAIL_ADDRESS,
-      to: mailReceivers,
-      subject,
-      text,
-    };
+    const sendEmailsPromises = mailReceivers.map(reciever =>
+      transporter.sendMail({
+        from: USER_MAIL_ADDRESS,
+        to: reciever,
+        subject,
+        text,
+      })
+    );
 
-    const result = await transporter.sendMail(mailOptions);
-    console.dir(`Result: ${result}`);
+    const results = await Promise.allSettled(sendEmailsPromises);
+
+    const emailsSentToSuccessfully = results.flatMap(result =>
+      result.status === 'fulfilled' ? result.value.accepted : []
+    );
+
+    const notSentToEmails = mailReceivers.filter(
+      email => !emailsSentToSuccessfully.includes(email)
+    );
+    return notSentToEmails;
   } catch (err) {
     console.log(err);
   }

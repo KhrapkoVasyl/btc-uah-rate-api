@@ -8,7 +8,7 @@ module.exports.notifySubscribers = async () => {
   try {
     const currentRate = await getRateService();
     const mailReceivers = await db.findAllEmails();
-    await emailSendingService.sendEmails(
+    return await emailSendingService.sendEmails(
       mailReceivers,
       'BTC to UAH exchange rate',
       `Current BTC to UAH exchange rate: ${currentRate}`
