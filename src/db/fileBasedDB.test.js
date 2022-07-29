@@ -41,8 +41,7 @@ describe('File Based Database Testing', () => {
   });
 
   describe('Testing the .insertEmail() method', () => {
-    test(`Should insert a new email address into the database (which was not previously in the database),
-    the return value should be equal to the email being inserted`, async () => {
+    test(`Should insert a new email address into the database, the return value should be equal to the email being inserted`, async () => {
       const newEmail = 'test@gmail.com';
 
       const returnedEmail = await db.insertEmail(newEmail);
@@ -58,24 +57,7 @@ describe('File Based Database Testing', () => {
       expect(emailsArr).toHaveLength(1);
     });
 
-    test('Should throw an error when trying to add an email that has already been recorded in the database', async () => {
-      const newEmail = 'test@gmail.com';
-
-      try {
-        expect.assertions(3);
-        await db.insertEmail(newEmail);
-
-        await db.insertEmail(newEmail);
-      } catch (err) {
-        expect(err).not.toBe(null);
-        expect(err).not.toBe(undefined);
-        expect(err.message).toBe(
-          'The specified email has already been recorded'
-        );
-      }
-    });
-
-    test('Should successfully add three unique emails to the database', async () => {
+    test('Should successfully add three emails to the database', async () => {
       const newEmail1 = 'test1@gmail.com';
       const newEmail2 = 'test2@gmail.com';
       const newEmail3 = 'test3@gmail.com';
@@ -96,6 +78,26 @@ describe('File Based Database Testing', () => {
       expect(emailsArr).toContain(newEmail1);
       expect(emailsArr).toContain(newEmail2);
       expect(emailsArr).toContain(newEmail3);
+    });
+  });
+
+  describe('Testing the .isEmailInDB() method', () => {
+    test(`Should return true when the email being checked has already been written to the database`, async () => {
+      const newEmail = 'test@gmail.com';
+      const emailToCheck = newEmail;
+      await db.insertEmail(newEmail);
+
+      const checkingResult = await db.isEmailInDB(emailToCheck);
+
+      expect(checkingResult).toBe(true);
+    });
+
+    test(`Should return false if the email being checked is not in the database`, async () => {
+      const emailToCheck = 'test@gmail.com';
+
+      const checkingResult = await db.isEmailInDB(emailToCheck);
+
+      expect(checkingResult).toBe(false);
     });
   });
 

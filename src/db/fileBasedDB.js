@@ -23,7 +23,7 @@ class FileBasedDB {
   async connect() {
     await fsp.mkdir(path.join(this.#dataDirectory), {
       recursive: true,
-    }); // recursively creates non-existent directories in the given path
+    });
 
     await this.#createFileIfNotExist();
 
@@ -61,14 +61,12 @@ class FileBasedDB {
   }
 
   async insertEmail(email) {
-    if (this.#isEmailInDB(email))
-      throw new Error('The specified email has already been recorded');
     this.#emails.push(email);
     await fsp.appendFile(this.#pathToEmailsFile, email + '\n');
     return email;
   }
 
-  #isEmailInDB(email) {
+  isEmailInDB(email) {
     return this.#emails.includes(email);
   }
 }
