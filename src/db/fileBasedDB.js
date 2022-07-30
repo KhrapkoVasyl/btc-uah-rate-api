@@ -35,10 +35,7 @@ class FileBasedDB {
 
   async #createFileIfNotExist() {
     await fsp.access(this.#pathToEmailsFile).catch(async err => {
-      if (
-        err.code === ERR_CODE_NO_SUCH_FILE &&
-        err.errno === ERRNO_NO_SUCH_FILE
-      ) {
+      if (err.code === ERR_CODE_NO_SUCH_FILE) {
         await this.#saveEmailsToFile();
       } else {
         throw err;

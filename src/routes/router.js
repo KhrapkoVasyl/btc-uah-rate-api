@@ -55,13 +55,18 @@ router
  *     summary: Subscribe email to receive the current exchange rate
  *     description: The query checks whether the given email address is not in the current database and if it is not, records it.
  *     tags: [subscription]
- *     parameters:
- *      - name: email
- *        in: formData
- *        description: Email address to subscribe
- *        required: true
- *        type: string
- *        example: example@mail.com
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/x-www-form-urlencoded:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              email:
+ *                type: string
+ *                example: example@gmail.com
+ *            required:
+ *              - email
  *     responses:
  *       200:
  *         description: Email added
