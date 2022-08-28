@@ -2,7 +2,7 @@
 
 const fsp = require('fs').promises;
 const path = require('path');
-const { ERRNO_NO_SUCH_FILE, ERR_CODE_NO_SUCH_FILE } = require('../config');
+const { ERR_CODE_NO_SUCH_FILE } = require('../config');
 
 class FileBasedDB {
   #emailsFilename = 'emails.txt';
